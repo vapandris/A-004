@@ -1,9 +1,15 @@
 #pragma once
 
 #include <stddef.h>
-#include "../Objects/GameObject.h"
 
-typedef struct graphicsComponent Graphics_GraphicsComponent;
+#ifndef GRAPHICS_GRAPHICSCOMPONENT
+#define GRAPHICS_GRAPHICSCOMPONENT
+typedef struct graphicsComponent Graphics_GraphicsComponent; // ez nagyon nem jó
+#endif
+
+#include "Objects/GameObject.h"
+
+
 typedef struct graphicsComponentType Graphics_GraphicsComponentType;
 
 /*/
@@ -29,4 +35,4 @@ struct graphicsComponentType                                            \
 Graphics_GraphicsComponent*     Graphics_GraphicsComponent_Create(Graphics_GraphicsComponentType* type);
 void                            Graphics_GraphicsComponent_Destroy(const Graphics_GraphicsComponent* self);
 
-void                            Graphics_GraphicsComponent_Update(Graphics_GraphicsComponent* self);
+void Graphics_GraphicsComponent_Update(Graphics_GraphicsComponent* self, Objects_GameObject* gameObject);

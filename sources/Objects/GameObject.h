@@ -1,11 +1,12 @@
 #pragma once
 
-#include "../Graphics/GraphicsComponent.h"
-#include "../Behaviour/BehaviourComponent.h"
-#include "../Utils/Position.h"
-
-
-typedef struct gameObject Objects_GameObject;
+#ifndef OBJECTS_GAMEOBJECT
+#define OBJECTS_GAMEOBJECT
+typedef struct gameObject Objects_GameObject; // ez NAGYON nem jó
+#endif
+#include "Graphics/GraphicsComponent.h"
+#include "Behaviour/BehaviourComponent.h"
+#include "Utils/Position.h"
 
 Objects_GameObject* Objects_GameObject_Create(
                         Position position,

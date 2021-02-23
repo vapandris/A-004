@@ -4,9 +4,7 @@ project('A-004', 'c',
 )
 
 #--------------------------
-DependecyList = []
 ProjectSourceList = []
-LinkWithList = []
 #--------------------------
 RootDirectory = ''
 
@@ -14,8 +12,6 @@ RootDirectory = ''
 subdir('sources')
 
 
-executable('A-004', MainSource,
-           dependencies : DependecyList,
-           link_with : LinkWithList,
+executable('A-004', ProjectSourceList,
            include_directories : RootDirectory
 )

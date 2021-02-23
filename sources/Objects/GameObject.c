@@ -23,14 +23,15 @@ Objects_GameObject* Objects_GameObject_Create(
 
     result->graphics = graphics;
     result->behaviour = behaviour;
+    return result;
 }
 
 void Objects_GameObject_Destroy(const Objects_GameObject* self)
 {
-    Objects_GameObject* self = (Objects_GameObject*)self;
-    free(self->graphics);
-    free(self->behaviour);
-    free(self);
+    Objects_GameObject* selfNotConst = (Objects_GameObject*)self;
+    free(selfNotConst->graphics);
+    free(selfNotConst->behaviour);
+    free(selfNotConst);
 }
 
 

@@ -11,7 +11,7 @@ Graphics_GraphicsComponent*     Graphics_GraphicsComponent_Create(Graphics_Graph
     size_t size = sizeof *result + type->typeSize;
     result = malloc(size);
     result->type = type;
-    return type;
+    return result;
 }
 
 
@@ -23,7 +23,7 @@ void Graphics_GraphicsComponent_Destroy(const Graphics_GraphicsComponent* self)
 }
 
 
-void Graphics_GraphicsComponent_Update(Graphics_GraphicsComponent* self)
+void Graphics_GraphicsComponent_Update(Graphics_GraphicsComponent* self, Objects_GameObject* gameObject)
 {
-    self->type->update(self);
+    self->type->update(gameObject);
 }
