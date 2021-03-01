@@ -13,7 +13,7 @@
 #include <SDL2/SDL_render.h>
 #include <SDL2/SDL_events.h>
 
-struct mainView
+struct gameView
 {
     SDL_Window* window;
     SDL_Renderer* renderer;
