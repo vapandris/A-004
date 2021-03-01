@@ -23,7 +23,7 @@ void Graphics_GraphicsComponent_Destroy(const Graphics_GraphicsComponent* self)
 }
 
 
-void Graphics_GraphicsComponent_Update(Graphics_GraphicsComponent* self, Objects_GameObject* gameObject)
+void Graphics_GraphicsComponent_Update(Graphics_GraphicsComponent* self, CoreData* data)
 {
-    self->type->update(gameObject);
+    self->type->update(data);
 }

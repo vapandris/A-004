@@ -1,8 +1,8 @@
-MainSource = files('main.c')
-ProjectSourceList += MainSource
+ProjectSources += files('main.c')
 
 RootDirectory = include_directories('.')
 
-subdir('Objects')
 subdir('Graphics')
 subdir('Behaviour')
+subdir('Objects')
+subdir('View')

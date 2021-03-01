@@ -1,5 +1,5 @@
-GraphicsSource = [
-    files('GraphicsComponent.c')
-]
+GraphicsSources = files(
+    'GraphicsComponent.c'
+)
 
-ProjectSourceList += GraphicsSource
+ProjectSources += GraphicsSources

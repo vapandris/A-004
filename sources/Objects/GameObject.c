@@ -4,14 +4,14 @@
 
 struct gameObject
 {
-    Position position;
+    CoreData position;
     Graphics_GraphicsComponent* graphics;
     Behaviour_BehaviourComponent* behaviour;
 };
 
 
 Objects_GameObject* Objects_GameObject_Create(
-                        Position position,
+                        CoreData position,
                         Graphics_GraphicsComponent* graphics,
                         Behaviour_BehaviourComponent* behaviour)
 {
@@ -35,13 +35,13 @@ void Objects_GameObject_Destroy(const Objects_GameObject* self)
 }
 
 
-Position Objects_GameObject_GetPosition(const Objects_GameObject* self)
+CoreData Objects_GameObject_GetPosition(const Objects_GameObject* self)
 {
     return self->position;
 }
 
 
-void Objects_GameObject_SetPosition(Objects_GameObject* self, Position position)
+void Objects_GameObject_SetPosition(Objects_GameObject* self, CoreData position)
 {
     self->position.x = position.x;
     self->position.y = position.y;

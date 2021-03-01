@@ -1,5 +1,5 @@
-ObjectsSource = [
-    files('GameObject.c')
-]
+ObjectsSources = files(
+    'GameObject.c'
+)
 
-ProjectSourceList += ObjectsSource
+ProjectSources += ObjectsSources

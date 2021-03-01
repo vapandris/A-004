@@ -1,5 +1,5 @@
-BehaviourSource = [
-    files('BehaviourComponent.c')
-]
+BehaviourSources = files(
+    'BehaviourComponent.c'
+)
 
-ProjectSourceList += BehaviourSource
+ProjectSources += BehaviourSources
