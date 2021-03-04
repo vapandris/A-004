@@ -4,22 +4,19 @@
 
 struct gameObject
 {
-    CoreData position;
+    CoreData coreData;
     Graphics_GraphicsComponent* graphics;
     Behaviour_BehaviourComponent* behaviour;
 };
 
 
 Objects_GameObject* Objects_GameObject_Create(
-                        CoreData position,
+                        CoreData coreData,
                         Graphics_GraphicsComponent* graphics,
                         Behaviour_BehaviourComponent* behaviour)
 {
     Objects_GameObject* result = malloc(sizeof *result);
-    result->position.x = position.x;
-    result->position.y = position.y;
-    result->position.width = position.width;
-    result->position.height = position.height;
+    CoreData_Set (&result->coreData, coreData);
 
     result->graphics = graphics;
     result->behaviour = behaviour;
@@ -35,16 +32,13 @@ void Objects_GameObject_Destroy(const Objects_GameObject* self)
 }
 
 
-CoreData Objects_GameObject_GetPosition(const Objects_GameObject* self)
+CoreData Objects_GameObject_GetcoreData(const Objects_GameObject* self)
 {
-    return self->position;
+    return self->coreData;
 }
 
 
-void Objects_GameObject_SetPosition(Objects_GameObject* self, CoreData position)
+void Objects_GameObject_SetCoreData(Objects_GameObject* self, CoreData coreData)
 {
-    self->position.x = position.x;
-    self->position.y = position.y;
-    self->position.width = position.width;
-    self->position.height = position.height;
+    CoreData_Set(&self->coreData, coreData);
 }
