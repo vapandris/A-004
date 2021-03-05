@@ -4,7 +4,7 @@
 #include "Behaviour/BehaviourComponent.h"
 #include "Utils/CoreData.h"
 
-typedef struct gameObject Objects_GameObject;
+typedef struct Objects_GameObject Objects_GameObject;
 Objects_GameObject* Objects_GameObject_Create(
                         CoreData data,
                         Graphics_GraphicsComponent* graphics,

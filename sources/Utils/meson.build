@@ -14,5 +14,3 @@ ProjectSources += UtilsSources
 #    'UtilsTest', UtilsTestSources,
 #    include_directories : RootDirectory
 #)
-#
-#test('UtilsTest', UtilsTest)

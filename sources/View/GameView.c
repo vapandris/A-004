@@ -13,7 +13,7 @@
 #include <SDL2/SDL_render.h>
 #include <SDL2/SDL_events.h>
 
-struct gameView
+struct View_GameView
 {
     SDL_Window* window;
     SDL_Renderer* renderer;
@@ -79,7 +79,7 @@ static bool ProcessEvents()
     while(SDL_PollEvent(&event) == true) {
         if(event.type == SDL_WINDOWEVENT_CLOSE ||
            event.type == SDL_QUIT ||
-           ( event.type == SDL_KEYUP && event.key.keysym.sym == SDLK_ESCAPE)) {
+           (event.type == SDL_KEYUP && event.key.keysym.sym == SDLK_ESCAPE)) {
             done = true;
         }
         //const UInt8* state = SDL_GetKeyboardState(NULL);

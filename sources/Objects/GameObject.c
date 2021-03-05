@@ -2,7 +2,7 @@
 
 #include <stdlib.h>
 
-struct gameObject
+struct Objects_GameObject
 {
     CoreData coreData;
     Graphics_GraphicsComponent* graphics;

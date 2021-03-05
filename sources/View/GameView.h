@@ -1,6 +1,6 @@
 #pragma once
 
-typedef struct gameView View_GameView;
+typedef struct View_GameView View_GameView;
 
 View_GameView*  View_GameView_Create();
 void            View_GameView_Destroy(const View_GameView* self);

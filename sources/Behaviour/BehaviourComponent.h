@@ -1,3 +1,3 @@
 #pragma once
 
-typedef struct behaviourComponent Behaviour_BehaviourComponent;
+typedef struct Behaviour_BehaviourComponent Behaviour_BehaviourComponent;

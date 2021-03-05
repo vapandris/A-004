@@ -1,6 +1,6 @@
 #pragma once
 
-typedef struct coreData
+typedef struct CoreData
 {
     double x, y;
     double width, height;

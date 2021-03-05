@@ -1,6 +1,6 @@
 #include "BehaviourComponent.h"
 
-struct behaviourComponent
+struct Behaviour_BehaviourComponent
 {
     void* TODO;
 };
