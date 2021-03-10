@@ -5,7 +5,7 @@
 
 GRAPHICS_COMPONENT_BASE
 
-Graphics_GraphicsComponent*     Graphics_GraphicsComponent_Create(Graphics_GraphicsComponentType* type)
+Graphics_GraphicsComponent* Graphics_GraphicsComponent_Create(Graphics_GraphicsComponentType* type)
 {
     Graphics_GraphicsComponent* result;
     size_t size = sizeof *result + type->typeSize;
@@ -23,7 +23,7 @@ void Graphics_GraphicsComponent_Destroy(const Graphics_GraphicsComponent* self)
 }
 
 
-void Graphics_GraphicsComponent_Update(Graphics_GraphicsComponent* self, CoreData* data)
+void Graphics_GraphicsComponent_Draw(Graphics_GraphicsComponent* self, const CoreData* data, SDL_Renderer* renderer)
 {
-    self->type->update(data);
+    self->type->draw(self, data, renderer);
 }

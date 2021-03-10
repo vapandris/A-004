@@ -1,5 +1,4 @@
-GraphicsSources = files(
-    'GraphicsComponent.c'
+ProjectSources += files(
+    'GraphicsComponent.c',
+    'PlayerComponent.c'
 )
-
-ProjectSources += GraphicsSources

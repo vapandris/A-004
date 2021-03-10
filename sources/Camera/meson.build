@@ -1,3 +1,3 @@
 ProjectSources += files(
-    'GameView.c'
+    'Camera.c'
 )

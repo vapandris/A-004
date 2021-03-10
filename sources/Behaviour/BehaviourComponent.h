@@ -1,3 +1,0 @@
-#pragma once
-
-typedef struct Behaviour_BehaviourComponent Behaviour_BehaviourComponent;

@@ -2,8 +2,9 @@ ProjectSources += files('main.c')
 
 RootDirectory = include_directories('.')
 
-subdir('Utils')
+subdir('Base')
+subdir('Camera')
 subdir('Graphics')
-subdir('Behaviour')
-subdir('Objects')
+subdir('Entities')
+subdir('World')
 subdir('View')

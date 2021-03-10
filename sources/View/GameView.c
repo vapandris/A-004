@@ -1,14 +1,16 @@
 #include "GameView.h"
 
-// from Utils
-#include "Utils/Types.h"
+// from Base
+#include "Base/Types.h"
+
+// from World
+#include "World/World.h"
 
 // from std
 #include <stdlib.h>
 #include <stdbool.h>
 
-// from SDL
-//#include <SDL2/SDL.h>
+// from SDL2
 #include <SDL2/SDL_video.h>
 #include <SDL2/SDL_render.h>
 #include <SDL2/SDL_events.h>
@@ -17,6 +19,8 @@ struct View_GameView
 {
     SDL_Window* window;
     SDL_Renderer* renderer;
+    Camera* camera;
+    World* world;
 };
 
 static bool ProcessEvents();
@@ -34,7 +38,8 @@ View_GameView* View_GameView_Create()
 
     result->renderer = SDL_CreateRenderer(result->window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 
-    // create/generate/whatever GameState
+    result->camera = malloc(sizeof *result->camera);
+    result->world = World_Create(result->camera);
 
     return result;
 }
@@ -45,25 +50,30 @@ void View_GameView_Destroy(const View_GameView* self)
     SDL_DestroyWindow(self->window);
     SDL_DestroyRenderer(self->renderer);
 
-    // free GameState
+    free(self->camera);
+    World_Destroy(self->world);
 
     free((View_GameView*)self);
 }
 
 
-void View_GameView_Start(View_GameView* self)
+void View_GameView_Loop(View_GameView* self)
 {
     //SDL_Window* window = self->window;
     SDL_Renderer* renderer = self->renderer;
 
+    World_Generate(self->world, 0);
+
     bool done = false;
     do {
-        SDL_SetRenderDrawColor(renderer, 50, 250, 50, 255);
+        SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
         SDL_RenderClear(renderer);
 
         done = ProcessEvents();
 
         // update world
+
+        World_RenderEntities(self->world, renderer);
 
         SDL_RenderPresent(renderer);
     } while(!done);
