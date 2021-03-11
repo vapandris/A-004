@@ -18,4 +18,4 @@ void                Entities_GameEntity_Destroy(const GameEntity* self);
 CoreData Entities_GameEntity_GetCoreData(const GameEntity* self);
 void     Entities_GameEntity_SetCoreData(GameEntity* self, CoreData coreData);
 
-void Entities_GameEntity_Draw(const GameEntity* self, SDL_Renderer* renderer);
+void Entities_GameEntity_Draw(const GameEntity* self, Camera_RenderingData* renderingData);

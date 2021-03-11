@@ -23,7 +23,7 @@ void Graphics_GraphicsComponent_Destroy(const Graphics_GraphicsComponent* self)
 }
 
 
-void Graphics_GraphicsComponent_Draw(Graphics_GraphicsComponent* self, const CoreData* data, SDL_Renderer* renderer)
+void Graphics_GraphicsComponent_Draw(Graphics_GraphicsComponent* self, const CoreData* data, Camera_RenderingData* renderingData)
 {
-    self->type->draw(self, data, renderer);
+    self->type->draw(self, data, renderingData);
 }

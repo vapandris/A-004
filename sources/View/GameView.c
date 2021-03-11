@@ -3,6 +3,10 @@
 // from Base
 #include "Base/Types.h"
 
+// from Camera
+#include "Camera/Camera.h"
+#include "Camera/RenderingData.h"
+
 // from World
 #include "World/World.h"
 
@@ -59,7 +63,7 @@ void View_GameView_Destroy(const View_GameView* self)
 
 void View_GameView_Loop(View_GameView* self)
 {
-    //SDL_Window* window = self->window;
+    SDL_Window* window = self->window;
     SDL_Renderer* renderer = self->renderer;
 
     World_Generate(self->world, 0);
@@ -73,7 +77,15 @@ void View_GameView_Loop(View_GameView* self)
 
         // update world
 
-        World_RenderEntities(self->world, renderer);
+        int w, h;
+        SDL_GetWindowSize(window, &w, &h);
+        Camera_RenderingData renderingData = (Camera_RenderingData){
+                                                .camera = self->camera,
+                                                .renderer = renderer,
+                                                .widowWidth = w,
+                                                .windowHeight = h
+        };
+        World_RenderEntities(self->world, &renderingData);
 
         SDL_RenderPresent(renderer);
     } while(!done);

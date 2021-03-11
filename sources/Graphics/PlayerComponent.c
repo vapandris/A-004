@@ -6,7 +6,6 @@
 
 // from SDL2
 #include <SDL2/SDL_image.h>
-#include <SDL2/SDL_render.h>
 
 GRAPHICS_COMPONENT_BASE
 
@@ -28,12 +27,12 @@ void PlayerComponent_Destroy_override(const Graphics_GraphicsComponent* self)
 }
 
 
-void PlayerComponent_Draw_override(const Graphics_GraphicsComponent* self, const CoreData* data, SDL_Renderer* renderer)
+void PlayerComponent_Draw_override(const Graphics_GraphicsComponent* self, const CoreData* data, Camera_RenderingData* renderingData)
 {
     PlayerData* playerData = GetPlayerData(self);
     if(playerData->tmpTexture == NULL) { // ez nem tetszik
         const char* imgLocation = "assets/Player/Player_tmp.png";
-        playerData->tmpTexture = IMG_LoadTexture(renderer, imgLocation);
+        playerData->tmpTexture = IMG_LoadTexture(renderingData->renderer, imgLocation);
 
         if(playerData->tmpTexture == NULL) {
             fprintf(stderr, "[%s] NOT FOUND!\n", imgLocation);

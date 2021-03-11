@@ -37,9 +37,9 @@ void World_Generate(World* self, int seed)
 }
 
 
-void World_RenderEntities(World* self, SDL_Renderer* renderer)
+void World_RenderEntities(World* self, Camera_RenderingData* renderingData)
 {
-    Entities_GameEntity_Draw(self->player, renderer);
+    Entities_GameEntity_Draw(self->player, renderingData);
 }
 
 

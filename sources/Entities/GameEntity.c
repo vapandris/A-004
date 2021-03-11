@@ -45,7 +45,7 @@ void Entities_GameEntity_SetCoreData(GameEntity* self, CoreData coreData)
 }
 
 
-void Entities_GameEntity_Draw(const GameEntity* self, SDL_Renderer* renderer)
+void Entities_GameEntity_Draw(const GameEntity* self, Camera_RenderingData* renderingData)
 {
-    Graphics_GraphicsComponent_Draw(self->graphicsComponent, &self->coreData, renderer);
+    Graphics_GraphicsComponent_Draw(self->graphicsComponent, &self->coreData, renderingData);
 }

@@ -4,7 +4,7 @@
 #include <stddef.h>
 
 // from SDL2
-#include <SDL2/SDL_render.h>
+#include "Camera/RenderingData.h"
 
 // from Base
 #include "Base/CoreData.h"
@@ -29,7 +29,7 @@ struct Graphics_GraphicsComponent                                               
 struct Graphics_GraphicsComponentType                                                                   \
 {                                                                                                       \
     size_t typeSize;                                                                                    \
-    void (*draw)(const Graphics_GraphicsComponent*, const CoreData*, SDL_Renderer*);                    \
+    void (*draw)(const Graphics_GraphicsComponent*, const CoreData*, Camera_RenderingData*);            \
     void (*destroy)(const Graphics_GraphicsComponent*);                                                 \
 };                                                                                                      \
                                                                                                         \
@@ -37,4 +37,4 @@ Graphics_GraphicsComponent* Graphics_GraphicsComponent_Create(Graphics_GraphicsC
 
 
 void Graphics_GraphicsComponent_Destroy(const Graphics_GraphicsComponent* self);
-void Graphics_GraphicsComponent_Draw(Graphics_GraphicsComponent* self, const CoreData* data, SDL_Renderer* renderer);
+void Graphics_GraphicsComponent_Draw(Graphics_GraphicsComponent* self, const CoreData* data, Camera_RenderingData* renderingData);
