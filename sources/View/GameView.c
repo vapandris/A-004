@@ -79,6 +79,9 @@ void View_GameView_Loop(View_GameView* self)
 
         int w, h;
         SDL_GetWindowSize(window, &w, &h);
+        double ratio = (double)w / h;
+        self->camera->width = 200.0;
+        self->camera->height = self->camera->width / ratio;
         Camera_RenderingData renderingData = (Camera_RenderingData){
                                                 .camera = self->camera,
                                                 .renderer = renderer,

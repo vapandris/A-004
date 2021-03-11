@@ -34,6 +34,8 @@ void World_Generate(World* self, int seed)
 {
     self->player = Entities_Player_Create((CoreData){.x = 0, .y = 0, .width = 24, .height = 48});
     self->coreData = (CoreData){.x = -100, .y = 100, .width = 1000, .height = 1000};
+    self->camera->x = -50;
+    self->camera->y = 50;
 }
 
 
