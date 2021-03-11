@@ -5,6 +5,6 @@
 
 typedef struct WindowData
 {
-    UInt16 x, y;
-    UInt16 width, height;
+    Int16 x, y;
+    Int16 width, height;
 } WindowData;
