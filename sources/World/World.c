@@ -89,13 +89,27 @@ void World_RenderEntities(World* self, Camera_RenderingData* renderingData)
             Entities_GameEntity_Draw(self->ground[i][j], renderingData);
         }
     }
+    Entities_GameEntity_Draw(self->aFlower, renderingData);
     Entities_GameEntity_Draw(self->player, renderingData);
     Entities_GameEntity_Draw(self->aTree, renderingData);
-    Entities_GameEntity_Draw(self->aFlower, renderingData);
 }
 
 
 void World_UpdateEntities(World* self)
 {
     // TODO
+}
+
+
+void World_MovePlayerTmp(World* self, double distance, char dir)
+{
+    if(dir == 0) {
+        Entities_Player_MoveLeft(self->player, distance);
+    } else if(dir == 1) {
+        Entities_Player_MoveRight(self->player, distance);
+    } else if(dir == 2) {
+        Entities_Player_MoveUp(self->player, distance);
+    } else if(dir == 3) {
+        Entities_Player_MoveDown(self->player, distance);
+    }
 }

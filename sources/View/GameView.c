@@ -27,7 +27,7 @@ struct View_GameView
     World* world;
 };
 
-static bool ProcessEvents();
+static bool ProcessEvents(View_GameView* self);
 
 
 View_GameView* View_GameView_Create()
@@ -73,7 +73,7 @@ void View_GameView_Loop(View_GameView* self)
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
         SDL_RenderClear(renderer);
 
-        done = ProcessEvents();
+        done = ProcessEvents(self);
 
         // update world
 
@@ -96,7 +96,7 @@ void View_GameView_Loop(View_GameView* self)
 }
 
 
-static bool ProcessEvents()
+static bool ProcessEvents(View_GameView* self)
 {
     bool done = false;
 
@@ -107,7 +107,19 @@ static bool ProcessEvents()
            (event.type == SDL_KEYUP && event.key.keysym.sym == SDLK_ESCAPE)) {
             done = true;
         }
-        //const UInt8* state = SDL_GetKeyboardState(NULL);
+    }
+
+    const UInt8* state = SDL_GetKeyboardState(NULL);
+
+    double distance = 2;
+    if(state[SDL_SCANCODE_LEFT] != 0 || state[SDL_SCANCODE_A] != 0) {
+        World_MovePlayerTmp(self->world, distance, 0);
+    } else if(state[SDL_SCANCODE_RIGHT] != 0 || state[SDL_SCANCODE_D] != 0) {
+        World_MovePlayerTmp(self->world, distance, 1);
+    } else if(state[SDL_SCANCODE_UP] != 0 || state[SDL_SCANCODE_W] != 0) {
+        World_MovePlayerTmp(self->world, distance, 2);
+    } else if(state[SDL_SCANCODE_DOWN] != 0 || state[SDL_SCANCODE_S] != 0) {
+        World_MovePlayerTmp(self->world, distance, 3);
     }
 
     return done;
