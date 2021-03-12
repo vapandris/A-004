@@ -1,5 +1,7 @@
 ProjectSources += files(
     'GraphicsComponent.c',
     'PlayerComponent.c',
-    'LightGrassComponent.c'
+    'LightGrassComponent.c',
+    'PineTreeComponent.c',
+    'YellowFlowersComponent.c'
 )
