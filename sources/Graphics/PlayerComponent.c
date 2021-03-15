@@ -18,10 +18,8 @@ typedef struct ComponentData {
     SDL_Texture* tmpTexture;
 } ComponentData;
 
-static ComponentData* GetComponentData(const Graphics_PlayerComponent* self)
-{
-    return (ComponentData*)self->bufferStart;
-}
+static ComponentData* GetComponentData(const Graphics_PlayerComponent* self);
+static void LoadTextures(Graphics_PlayerComponent* self, SDL_Renderer* renderer);
 
 void PlayerComponent_Destroy_override(const Graphics_GraphicsComponent* self)
 {
@@ -32,22 +30,12 @@ void PlayerComponent_Destroy_override(const Graphics_GraphicsComponent* self)
 }
 
 
-void PlayerComponent_Draw_override(const Graphics_GraphicsComponent* self, const CoreData* data, Camera_RenderingData* renderingData)
+void PlayerComponent_Draw_override(const Graphics_GraphicsComponent* self, SDL_Rect textureRect, Camera_RenderingData* renderingData)
 {
-    WindowData windowData = Camera_CalculateWindowDataFromCoreData(renderingData->camera, renderingData->widowWidth, renderingData->windowHeight, data);
     ComponentData* componentData = GetComponentData(self);
-    if(componentData->tmpTexture == NULL) { // ez nem tetszik
-        const char* imgLocation = "assets/Player/Player_tmp.png";
-        componentData->tmpTexture = IMG_LoadTexture(renderingData->renderer, imgLocation);
 
-        if(componentData->tmpTexture == NULL) {
-            fprintf(stderr, "[%s] NOT FOUND!\n", imgLocation);
-            return;
-        }
-    }
-
-    SDL_Rect playerTextureRect = (SDL_Rect){.x = windowData.x, .y = windowData.y, .w = windowData.width, .h = windowData.height};
-    SDL_RenderCopy(renderingData->renderer, componentData->tmpTexture, NULL, &playerTextureRect);
+    if(componentData->tmpTexture != NULL)
+        SDL_RenderCopy(renderingData->renderer, componentData->tmpTexture, NULL, &textureRect);
 }
 
 
@@ -58,11 +46,11 @@ static Graphics_GraphicsComponentType type = {
 };
 
 
-Graphics_PlayerComponent* Graphics_PlayerComponent_Create()
+Graphics_PlayerComponent* Graphics_PlayerComponent_Create(SDL_Renderer* renderer)
 {
-    Graphics_PlayerComponent* result = Graphics_GraphicsComponent_Create(&type);
-    ComponentData* componentData = GetComponentData(result);
-    componentData->tmpTexture = NULL;
+    Graphics_PlayerComponent* result = Graphics_GraphicsComponent_Create(&type, renderer);
+    
+    LoadTextures(result, renderer);
 
     return result;
 }
@@ -71,4 +59,23 @@ Graphics_PlayerComponent* Graphics_PlayerComponent_Create()
 void Graphics_PlayerComponent_Destroy(const Graphics_PlayerComponent* self)
 {
     Graphics_GraphicsComponent_Destroy(self);
+}
+
+
+// static functions:
+static ComponentData* GetComponentData(const Graphics_PlayerComponent* self)
+{
+    return (ComponentData*)self->bufferStart;
+}
+
+
+static void LoadTextures(Graphics_PlayerComponent* self, SDL_Renderer* renderer)
+{
+    ComponentData* componentData = GetComponentData(self);
+
+    const char* imgLocation = "assets/Player/Player_tmp.png";
+    componentData->tmpTexture = IMG_LoadTexture(renderer, imgLocation);
+
+    if(componentData->tmpTexture == NULL)
+        fprintf(stderr, "[%s] NOT FOUND!\n", imgLocation);
 }

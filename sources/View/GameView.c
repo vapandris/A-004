@@ -10,6 +10,9 @@
 // from World
 #include "World/World.h"
 
+// from Graphics
+#include "Graphics/GraphicsComponentManager.h"
+
 // from std
 #include <stdlib.h>
 #include <stdbool.h>
@@ -45,12 +48,14 @@ View_GameView* View_GameView_Create()
     result->camera = malloc(sizeof *result->camera);
     result->world = World_Create(result->camera);
 
+    Graphics_ComponentManager_Create(result->renderer);
     return result;
 }
 
 
 void View_GameView_Destroy(const View_GameView* self)
 {
+    Graphics_ComponentManager_Destroy();
     SDL_DestroyWindow(self->window);
     SDL_DestroyRenderer(self->renderer);
 
@@ -85,7 +90,7 @@ void View_GameView_Loop(View_GameView* self)
         Camera_RenderingData renderingData = (Camera_RenderingData){
                                                 .camera = self->camera,
                                                 .renderer = renderer,
-                                                .widowWidth = w,
+                                                .windowWidth = w,
                                                 .windowHeight = h
         };
         World_RenderEntities(self->world, &renderingData);

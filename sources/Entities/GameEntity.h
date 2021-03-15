@@ -9,7 +9,7 @@
 typedef struct GameEntity GameEntity;
 GameEntity* Entities_GameEntity_Create(
                         CoreData coreData,
-                        Graphics_GraphicsComponent* graphics
+                        const Graphics_GraphicsComponent* graphics
 );
 
 void                Entities_GameEntity_Destroy(const GameEntity* self);

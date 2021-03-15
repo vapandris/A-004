@@ -10,5 +10,5 @@ typedef struct Camera_RenderingData
 {
     SDL_Renderer* renderer;
     Camera* camera;
-    int widowWidth, windowHeight;
+    int windowWidth, windowHeight;
 } Camera_RenderingData;

@@ -19,10 +19,8 @@ typedef struct ComponentData {
 } ComponentData;
 
 
-static ComponentData* GetComponentData(const Graphics_LightGrassComponent* self)
-{
-    return (ComponentData*)self->bufferStart;
-}
+static ComponentData* GetComponentData(const Graphics_LightGrassComponent* self);
+static void LoadTextures(Graphics_LightGrassComponent* self, SDL_Renderer* renderer);
 
 
 void LightGrassComponent_Destroy_override(const Graphics_LightGrassComponent* self)
@@ -34,22 +32,12 @@ void LightGrassComponent_Destroy_override(const Graphics_LightGrassComponent* se
 }
 
 
-void LightGrassComponent_Draw_override(const Graphics_GraphicsComponent* self, const CoreData* data, Camera_RenderingData* renderingData)
+void LightGrassComponent_Draw_override(const Graphics_GraphicsComponent* self, SDL_Rect textureRect, Camera_RenderingData* renderingData)
 {
-    WindowData windowData = Camera_CalculateWindowDataFromCoreData(renderingData->camera, renderingData->widowWidth, renderingData->windowHeight, data);
     ComponentData* componentData = GetComponentData(self);
-    if(componentData->lightGrassFull == NULL) {
-        const char* imgLocation = "assets/Tiles/light_grass_1.png";
-        componentData->lightGrassFull = IMG_LoadTexture(renderingData->renderer, imgLocation);
-
-        if(componentData->lightGrassFull == NULL) {
-            fprintf(stderr, "[%s] NOT FOUND!\n", imgLocation);
-            return;
-        }
-    }
-
-    SDL_Rect playerTextureRect = (SDL_Rect){.x = windowData.x, .y = windowData.y, .w = windowData.width, .h = windowData.height};
-    SDL_RenderCopy(renderingData->renderer, componentData->lightGrassFull, NULL, &playerTextureRect);
+    
+    if(componentData->lightGrassFull != NULL)
+        SDL_RenderCopy(renderingData->renderer, componentData->lightGrassFull, NULL, &textureRect);
 }
 
 
@@ -60,11 +48,11 @@ static Graphics_GraphicsComponentType type = {
 };
 
 
-Graphics_LightGrassComponent* Graphics_LightGrassComponent_Create()
+Graphics_LightGrassComponent* Graphics_LightGrassComponent_Create(SDL_Renderer* renderer)
 {
-    Graphics_LightGrassComponent* result = Graphics_GraphicsComponent_Create(&type);
-    ComponentData* componentData = GetComponentData(result);
-    componentData->lightGrassFull = NULL;
+    Graphics_LightGrassComponent* result = Graphics_GraphicsComponent_Create(&type, renderer);
+    
+    LoadTextures(result, renderer);
 
     return result;
 }
@@ -73,4 +61,22 @@ Graphics_LightGrassComponent* Graphics_LightGrassComponent_Create()
 void Graphics_LightGrassComponent_Destroy(const Graphics_LightGrassComponent* self)
 {
     Graphics_GraphicsComponent_Destroy(self);
+}
+
+// static functions:
+static ComponentData* GetComponentData(const Graphics_LightGrassComponent* self)
+{
+    return (ComponentData*)self->bufferStart;
+}
+
+
+static void LoadTextures(Graphics_LightGrassComponent* self, SDL_Renderer* renderer)
+{
+    ComponentData* componentData = GetComponentData(self);
+
+    const char* imgLocation = "assets/Tiles/light_grass_1.png";
+    componentData->lightGrassFull = IMG_LoadTexture(renderer, imgLocation);
+
+    if(componentData->lightGrassFull == NULL)
+        fprintf(stderr, "[%s] NOT FOUND!\n", imgLocation);
 }

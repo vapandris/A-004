@@ -8,6 +8,7 @@
 
 // from Base
 #include "Base/CoreData.h"
+#include <SDL2/SDL_rect.h>
 
 typedef struct Graphics_GraphicsComponent Graphics_GraphicsComponent;
 
@@ -17,24 +18,28 @@ typedef struct Graphics_GraphicsComponent Graphics_GraphicsComponent;
  * Also we don't want to be able to create & destroy them just anywhere.
 /*/
 
-#define GRAPHICS_COMPONENT_BASE                                                                         \
-typedef struct Graphics_GraphicsComponentType Graphics_GraphicsComponentType;                           \
-                                                                                                        \
-struct Graphics_GraphicsComponent                                                                       \
-{                                                                                                       \
-    Graphics_GraphicsComponentType* type;                                                               \
-    char bufferStart[];                                                                                 \
-};                                                                                                      \
-                                                                                                        \
-struct Graphics_GraphicsComponentType                                                                   \
-{                                                                                                       \
-    size_t typeSize;                                                                                    \
-    void (*draw)(const Graphics_GraphicsComponent*, const CoreData*, Camera_RenderingData*);            \
-    void (*destroy)(const Graphics_GraphicsComponent*);                                                 \
-};                                                                                                      \
-                                                                                                        \
-Graphics_GraphicsComponent* Graphics_GraphicsComponent_Create(Graphics_GraphicsComponentType* type);    \
+#define GRAPHICS_COMPONENT_BASE                                                         \
+typedef struct Graphics_GraphicsComponentType Graphics_GraphicsComponentType;           \
+                                                                                        \
+struct Graphics_GraphicsComponent                                                       \
+{                                                                                       \
+    Graphics_GraphicsComponentType* type;                                               \
+    SDL_Renderer* renderer;                                                             \
+    char bufferStart[];                                                                 \
+};                                                                                      \
+                                                                                        \
+struct Graphics_GraphicsComponentType                                                   \
+{                                                                                       \
+    size_t typeSize;                                                                    \
+    void (*draw)(const Graphics_GraphicsComponent*, SDL_Rect, Camera_RenderingData*);   \
+    void (*destroy)(const Graphics_GraphicsComponent*);                                 \
+};                                                                                      \
+                                                                                        \
+Graphics_GraphicsComponent* Graphics_GraphicsComponent_Create(                          \
+    Graphics_GraphicsComponentType* type,                                               \
+    SDL_Renderer* renderer                                                              \
+);                                                                                      \
 
 
 void Graphics_GraphicsComponent_Destroy(const Graphics_GraphicsComponent* self);
-void Graphics_GraphicsComponent_Draw(Graphics_GraphicsComponent* self, const CoreData* data, Camera_RenderingData* renderingData);
+void Graphics_GraphicsComponent_Draw(const Graphics_GraphicsComponent* self, const CoreData* coreData, Camera_RenderingData* renderingData);

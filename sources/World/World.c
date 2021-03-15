@@ -6,9 +6,8 @@
 // from Entities
 #include "Entities/GameEntity.h"
 #include "Entities/Player.h"
-#include "Entities/LightGrass.h"
-#include "Entities/PineTree.h"
-#include "Entities/YellowFlowers.h"
+#include "Entities/Tiles.h"
+#include "Entities/Vegetations.h"
 
 // from Base
 #include "Base/CoreData.h"
@@ -68,14 +67,14 @@ void World_Generate(World* self, int seed)
         for(int j = 0; j < self->groundSize; ++j) {
             double x = worldX + (j * tileSize);
             double y = worldY - (i * tileSize);
-            self->ground[i][j] = Entities_LightGrass_Create((CoreData){.x = x, .y = y, .width = tileSize, .height = tileSize});
+            self->ground[i][j] = Entities_LightGrass_Create(x, y);
         }
     }
 
-    self->aTree = Entities_PineTree_Create((CoreData){.x = 20, .y=-20, .width = 34, .height = 51});
-    self->aFlower = Entities_YellowFlowers_Create((CoreData){.x = 50, .y=-50, .width = 32, .height = 32});
+    self->aTree = Entities_PineTree_Create(20, -20);
+    self->aFlower = Entities_YellowFlowers_Create(50, -50);
 
-    self->player = Entities_Player_Create((CoreData){.x = 0, .y = 0, .width = 24, .height = 48});
+    self->player = Entities_Player_Create(0, 0);
     self->camera->x = -100;
     self->camera->y = 100;
 }

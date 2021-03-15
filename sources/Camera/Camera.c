@@ -3,33 +3,33 @@
 // from std
 #include <math.h>
 
-CoreData Camera_CalculateCoreDataFromWindowData(const Camera* camera, UInt16 windowWidth, UInt16 windowHeight, const WindowData* windowData)
+CoreData  Camera_CalculateCoreFromDataRect(const Camera* camera, UInt16 windowWidth, UInt16 windowHeight, const SDL_Rect* rect)
 {
     CoreData result;
 
     double xDelta = windowWidth / camera->width;
     double yDelta = windowHeight / camera->height;
 
-    result.x = (windowData->x / xDelta) + camera->x;
-    result.y = camera->y - (windowData->y / yDelta);
-    result.width = windowData->width / xDelta;
-    result.height = windowData->height / yDelta;
+    result.x = (rect->x / xDelta) + camera->x;
+    result.y = camera->y - (rect->y / yDelta);
+    result.width = rect->w / xDelta;
+    result.height = rect->h / yDelta;
 
     return result;
 }
 
 
-WindowData Camera_CalculateWindowDataFromCoreData(const Camera* camera, UInt16 windowWidth, UInt16 windowHeight, const CoreData* coreData)
+SDL_Rect  Camera_CalculateRectFromCoreData(const Camera* camera, UInt16 windowWidth, UInt16 windowHeight, const CoreData* coreData)
 {
-    WindowData result;
+    SDL_Rect result;
 
     double xDelta = windowWidth / camera->width;
     double yDelta = windowHeight / camera->height;
 
     result.x = ceil((coreData->x - camera->x) * xDelta);
     result.y = ceil((coreData->y - camera->y) * -yDelta);
-    result.width = ceil(coreData->width * xDelta);
-    result.height = ceil(coreData->height * yDelta);
+    result.w = ceil(coreData->width * xDelta);
+    result.h = ceil(coreData->height * yDelta);
 
     return result;
 }
