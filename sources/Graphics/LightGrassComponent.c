@@ -36,7 +36,7 @@ void LightGrassComponent_Destroy_override(const Graphics_LightGrassComponent* se
 
 void LightGrassComponent_Draw_override(const Graphics_GraphicsComponent* self, const CoreData* data, Camera_RenderingData* renderingData)
 {
-    WindowData windowData =  Camera_CalculateWindowDataFromCoreData(renderingData->camera, renderingData->widowWidth, renderingData->windowHeight, data);
+    WindowData windowData = Camera_CalculateWindowDataFromCoreData(renderingData->camera, renderingData->widowWidth, renderingData->windowHeight, data);
     ComponentData* componentData = GetComponentData(self);
     if(componentData->lightGrassFull == NULL) {
         const char* imgLocation = "assets/Tiles/light_grass_1.png";

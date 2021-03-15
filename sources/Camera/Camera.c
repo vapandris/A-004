@@ -1,5 +1,8 @@
 #include "Camera.h"
 
+// from std
+#include <math.h>
+
 CoreData Camera_CalculateCoreDataFromWindowData(const Camera* camera, UInt16 windowWidth, UInt16 windowHeight, const WindowData* windowData)
 {
     CoreData result;
@@ -23,10 +26,10 @@ WindowData Camera_CalculateWindowDataFromCoreData(const Camera* camera, UInt16 w
     double xDelta = windowWidth / camera->width;
     double yDelta = windowHeight / camera->height;
 
-    result.x = (coreData->x - camera->x) * xDelta;
-    result.y = (coreData->y - camera->y) * -yDelta;
-    result.width = coreData->width * xDelta;
-    result.height = coreData->height * yDelta;
+    result.x = ceil((coreData->x - camera->x) * xDelta);
+    result.y = ceil((coreData->y - camera->y) * -yDelta);
+    result.width = ceil(coreData->width * xDelta);
+    result.height = ceil(coreData->height * yDelta);
 
     return result;
 }
