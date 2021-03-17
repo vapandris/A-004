@@ -72,6 +72,12 @@ void View_GameView_Loop(View_GameView* self)
     SDL_Window* window = self->window;
     SDL_Renderer* renderer = self->renderer;
 
+    int w, h;
+    SDL_GetWindowSize(window, &w, &h);
+    double ratio = (double)w / h;
+    self->camera->width = 640.0;
+    self->camera->height = self->camera->width / ratio;
+
     srand(time(NULL));
     World_Generate(self->world, rand());
 
@@ -83,12 +89,7 @@ void View_GameView_Loop(View_GameView* self)
         done = ProcessEvents(self);
 
         // update world
-
-        int w, h;
-        SDL_GetWindowSize(window, &w, &h);
-        double ratio = (double)w / h;
-        self->camera->width = 1000.0;
-        self->camera->height = self->camera->width / ratio;
+        
         Camera_RenderingData renderingData = (Camera_RenderingData){
                                                 .camera = self->camera,
                                                 .renderer = renderer,

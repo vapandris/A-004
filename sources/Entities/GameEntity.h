@@ -8,6 +8,15 @@
 #include "Base/CoreData.h"
 
 typedef struct GameEntity GameEntity;
+
+#define GAMEENTITY_BASE                                         \
+struct GameEntity                                               \
+{                                                               \
+    CoreData coreData;                                          \
+    const Graphics_GraphicsComponent* graphicsComponent;        \
+    Input_InputComponent* inputComponent;                       \
+};                                                              \
+
 GameEntity* Entities_GameEntity_Create(
                         CoreData coreData,
                         const Graphics_GraphicsComponent* graphics,

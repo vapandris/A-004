@@ -78,8 +78,10 @@ void World_Generate(World* self, int seed)
     }
 
     self->player = Entities_Player_Create(0, 0);
-    self->camera->x = -120;
-    self->camera->y = 120;
+    self->camera->x = Entities_GameEntity_GetCoreData(self->player).x - (self->camera->width / 2);
+    self->camera->y = Entities_GameEntity_GetCoreData(self->player).y + (self->camera->height / 2);
+
+    Entities_Player_SetCamera(self->player, self->camera);
 }
 
 

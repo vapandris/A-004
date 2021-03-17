@@ -6,13 +6,7 @@
 // from SDL2
 #include <SDL2/SDL_render.h>
 
-struct GameEntity
-{
-    CoreData coreData;
-    const Graphics_GraphicsComponent* graphicsComponent;
-    Input_InputComponent* inputComponent;
-};
-
+GAMEENTITY_BASE
 
 GameEntity* Entities_GameEntity_Create(
                         CoreData coreData,
