@@ -16,6 +16,7 @@
 // from std
 #include <stdlib.h>
 #include <stdbool.h>
+#include <time.h>
 
 // from SDL2
 #include <SDL2/SDL_video.h>
@@ -71,11 +72,12 @@ void View_GameView_Loop(View_GameView* self)
     SDL_Window* window = self->window;
     SDL_Renderer* renderer = self->renderer;
 
-    World_Generate(self->world, 0);
+    srand(time(NULL));
+    World_Generate(self->world, rand());
 
     bool done = false;
     do {
-        SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+        SDL_SetRenderDrawColor(renderer, 15, 0, 60, 255);
         SDL_RenderClear(renderer);
 
         done = ProcessEvents(self);

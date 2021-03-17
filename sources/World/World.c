@@ -2,6 +2,7 @@
 
 // from std
 #include <stdlib.h>
+#include <math.h>
 
 // from Entities
 #include "Entities/GameEntity.h"
@@ -13,14 +14,14 @@
 #include "Base/CoreData.h"
 
 
+static double LinearGenerator(double x, double multiplyer, double origoX);
+
 struct World {
     CoreData coreData;
     Camera* camera;
     Entities_Player* player;
     int groundSize;
     GameEntity*** ground;
-    Entities_PineTree* aTree;
-    Entities_YellowFlowers* aFlower;
 
 };
 
@@ -43,8 +44,6 @@ void   World_Destroy(const World* self)
         }
         free(self->ground[i]);
     }
-    Entities_GameEntity_Destroy(self->aTree);
-    Entities_GameEntity_Destroy(self->aFlower);
     free(self->ground);
     free((World*)self);
 }
@@ -52,11 +51,12 @@ void   World_Destroy(const World* self)
 
 void World_Generate(World* self, int seed)
 {
-    const double tileSize = 32.0;
+    const double tileSize = Entities_Tiles_GetSize();
     const double worldSize = 640.0;
     const double worldX = -100;
     const double worldY = 100;
-    self->coreData = (CoreData){.x = worldX, .y = worldY, .width = worldSize, .height = worldSize};
+    self->coreData = (CoreData){.x = -100, .y = 100, .width = 640, .height = 640};
+    const double worldOrigoX = worldSize / 2 + worldX; 
 
     self->groundSize = worldSize / tileSize;
     self->ground = malloc(sizeof *self->ground * self->groundSize);
@@ -67,16 +67,19 @@ void World_Generate(World* self, int seed)
         for(int j = 0; j < self->groundSize; ++j) {
             double x = worldX + (j * tileSize);
             double y = worldY - (i * tileSize);
-            self->ground[i][j] = Entities_LightGrass_Create(x, y);
+
+            if(abs(LinearGenerator(x, 0.5, worldOrigoX) - y) <= 50) {
+                self->ground[i][j] = Entities_LightGrass_Create(x, y);
+            } else {
+                self->ground[i][j] = Entities_Void_Create(x, y);
+            }
+            
         }
     }
 
-    self->aTree = Entities_PineTree_Create(20, -20);
-    self->aFlower = Entities_YellowFlowers_Create(50, -50);
-
     self->player = Entities_Player_Create(0, 0);
-    self->camera->x = -100;
-    self->camera->y = 100;
+    self->camera->x = -120;
+    self->camera->y = 120;
 }
 
 
@@ -88,9 +91,7 @@ void World_RenderEntities(World* self, Camera_RenderingData* renderingData)
             Entities_GameEntity_Draw(self->ground[i][j], renderingData);
         }
     }
-    Entities_GameEntity_Draw(self->aFlower, renderingData);
     Entities_GameEntity_Draw(self->player, renderingData);
-    Entities_GameEntity_Draw(self->aTree, renderingData);
 }
 
 
@@ -111,4 +112,11 @@ void World_MovePlayerTmp(World* self, double distance, char dir)
     } else if(dir == 3) {
         Entities_Player_MoveDown(self->player, distance);
     }
+}
+
+
+// static functions:
+static double LinearGenerator(double x, double multiplyer, double origoX)
+{
+    return (multiplyer * x) - origoX;
 }

@@ -4,5 +4,6 @@ ProjectSources += files(
     'LightGrassComponent.c',
     'PineTreeComponent.c',
     'YellowFlowersComponent.c',
-    'GraphicsComponentManager.c'
+    'GraphicsComponentManager.c',
+    'VoidComponent.c'
 )

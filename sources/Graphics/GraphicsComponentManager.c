@@ -8,6 +8,7 @@
 #include "PineTreeComponent.h"
 #include "PlayerComponent.h"
 #include "YellowFlowersComponent.h"
+#include "VoidComponent.h"
 
 typedef struct Graphics_ComponentManager Graphics_ComponentManager;
 
@@ -17,6 +18,7 @@ struct Graphics_ComponentManager
     Graphics_PineTreeComponent*         pineTreeComponent;
     Graphics_PlayerComponent*           playerComponent;
     Graphics_YellowFlowersComponent*    yellowFlowersComponent;
+    Graphics_VoidComponent*             voidComponent;
 };
 
 static Graphics_ComponentManager* componentManager = NULL;
@@ -30,6 +32,7 @@ void Graphics_ComponentManager_Create(SDL_Renderer* renderer)
         componentManager->pineTreeComponent = Graphics_PineTreeComponent_Create(renderer);
         componentManager->playerComponent = Graphics_PlayerComponent_Create(renderer);
         componentManager->yellowFlowersComponent = Graphics_YellowFlowersComponent_Create(renderer);
+        componentManager->voidComponent = Graphics_VoidComponent_Create(renderer);
     }
 }
 
@@ -41,6 +44,7 @@ void Graphics_ComponentManager_Destroy()
         Graphics_PineTreeComponent_Destroy(componentManager->pineTreeComponent);
         Graphics_PlayerComponent_Destroy(componentManager->playerComponent);
         Graphics_YellowFlowersComponent_Destroy(componentManager->yellowFlowersComponent);
+        Graphics_VoidComponent_Destroy(componentManager->voidComponent);
 
         free(componentManager);
     }
@@ -80,6 +84,16 @@ const Graphics_GraphicsComponent* Graphics_ComponentManager_GetYellowFlowersComp
 {
     if(componentManager != NULL) {
         return componentManager->yellowFlowersComponent;
+    }
+
+    return NULL;
+}
+
+
+const Graphics_GraphicsComponent* Graphics_ComponentManager_VoidComponent()
+{
+    if(componentManager != NULL) {
+        return componentManager->voidComponent;
     }
 
     return NULL;

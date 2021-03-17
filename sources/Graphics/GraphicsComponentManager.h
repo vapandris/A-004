@@ -13,3 +13,4 @@ const Graphics_GraphicsComponent* Graphics_ComponentManager_GetLightGrassCompone
 const Graphics_GraphicsComponent* Graphics_ComponentManager_GetPineTreeComponent();
 const Graphics_GraphicsComponent* Graphics_ComponentManager_GetPlayerComponent();
 const Graphics_GraphicsComponent* Graphics_ComponentManager_GetYellowFlowersComponent();
+const Graphics_GraphicsComponent* Graphics_ComponentManager_VoidComponent();
