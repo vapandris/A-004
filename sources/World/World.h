@@ -14,5 +14,4 @@ void   World_Destroy(const World* self);
 void World_Generate(World* self, int seed);
 void World_RenderEntities(World* self, Camera_RenderingData* renderingData);
 void World_UpdateEntities(World* self);
-
-void World_MovePlayerTmp(World* self, double distance, char dir);
+void World_HandleInput(World* self, const UInt8* keyboardState);

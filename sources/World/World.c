@@ -101,17 +101,9 @@ void World_UpdateEntities(World* self)
 }
 
 
-void World_MovePlayerTmp(World* self, double distance, char dir)
+void World_HandleInput(World* self, const UInt8* keyboardState)
 {
-    if(dir == 0) {
-        Entities_Player_MoveLeft(self->player, distance);
-    } else if(dir == 1) {
-        Entities_Player_MoveRight(self->player, distance);
-    } else if(dir == 2) {
-        Entities_Player_MoveUp(self->player, distance);
-    } else if(dir == 3) {
-        Entities_Player_MoveDown(self->player, distance);
-    }
+    Entities_GameEntity_HandleInput(self->player, keyboardState);
 }
 
 

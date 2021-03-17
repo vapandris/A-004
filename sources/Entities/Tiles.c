@@ -14,7 +14,8 @@ Entities_LightGrass* Entities_LightGrass_Create(double x, double y)
 {
     return Entities_GameEntity_Create(
         (CoreData){.x = x, .y = y, .width = tileSize, .height = tileSize},
-        Graphics_ComponentManager_GetLightGrassComponent()
+        Graphics_ComponentManager_GetLightGrassComponent(),
+        NULL
     );
 }
 
@@ -23,6 +24,7 @@ Entities_Void* Entities_Void_Create(double x, double y)
 {
     return Entities_GameEntity_Create(
         (CoreData){.x = x, .y = y, .width = tileSize, .height = tileSize},
-        Graphics_ComponentManager_VoidComponent()
+        Graphics_ComponentManager_VoidComponent(),
+        NULL
     );
 }

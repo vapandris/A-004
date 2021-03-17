@@ -16,15 +16,14 @@ Graphics_GraphicsComponent* Graphics_GraphicsComponent_Create(Graphics_GraphicsC
     result = malloc(size);
     result->type = type;
     result->renderer = renderer;
+
     return result;
 }
 
 
 void Graphics_GraphicsComponent_Destroy(const Graphics_GraphicsComponent* self)
 {
-    if(self != NULL) {
-        self->type->destroy((Graphics_GraphicsComponent*)self);
-    }
+    self->type->destroy(self);
 }
 
 

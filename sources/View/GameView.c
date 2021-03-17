@@ -116,18 +116,9 @@ static bool ProcessEvents(View_GameView* self)
         }
     }
 
-    const UInt8* state = SDL_GetKeyboardState(NULL);
+    const UInt8* keyboardState = SDL_GetKeyboardState(NULL);
 
-    double distance = 2;
-    if(state[SDL_SCANCODE_LEFT] != 0 || state[SDL_SCANCODE_A] != 0) {
-        World_MovePlayerTmp(self->world, distance, 0);
-    } else if(state[SDL_SCANCODE_RIGHT] != 0 || state[SDL_SCANCODE_D] != 0) {
-        World_MovePlayerTmp(self->world, distance, 1);
-    } else if(state[SDL_SCANCODE_UP] != 0 || state[SDL_SCANCODE_W] != 0) {
-        World_MovePlayerTmp(self->world, distance, 2);
-    } else if(state[SDL_SCANCODE_DOWN] != 0 || state[SDL_SCANCODE_S] != 0) {
-        World_MovePlayerTmp(self->world, distance, 3);
-    }
+    World_HandleInput(self->world, keyboardState);
 
     return done;
 }
