@@ -47,6 +47,9 @@ void Input_PlayerComponent_HandleInput_override(Input_PlayerComponent* self, Cor
     if((direction & LEFT) == LEFT && (direction & UP) == UP) {
         coreData->x -= diagonalDistance;
         coreData->y += diagonalDistance;
+
+        camera->x -= diagonalDistance;
+        camera->y += diagonalDistance;
     } else if((direction & LEFT) == LEFT && (direction & DOWN) == DOWN) {
         coreData->x -= diagonalDistance;
         coreData->y -= diagonalDistance;
