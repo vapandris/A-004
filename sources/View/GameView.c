@@ -56,12 +56,13 @@ View_GameView* View_GameView_Create()
 
 void View_GameView_Destroy(const View_GameView* self)
 {
+    World_Destroy(self->world);
     Graphics_ComponentManager_Destroy();
+
     SDL_DestroyWindow(self->window);
     SDL_DestroyRenderer(self->renderer);
 
     free(self->camera);
-    World_Destroy(self->world);
 
     free((View_GameView*)self);
 }
