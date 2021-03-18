@@ -84,7 +84,7 @@ void View_GameView_Loop(View_GameView* self)
 
     bool done = false;
     do {
-        SDL_SetRenderDrawColor(renderer, 15, 0, 60, 255);
+        SDL_SetRenderDrawColor(renderer, 94, 158, 196, 255);
         SDL_RenderClear(renderer);
 
         done = ProcessEvents(self);

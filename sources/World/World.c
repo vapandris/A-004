@@ -22,7 +22,7 @@ struct World {
     Entities_Player* player;
     int groundSize;
     GameEntity*** ground;
-
+    //GameEntity**  vegetations;
 };
 
 
@@ -52,10 +52,10 @@ void   World_Destroy(const World* self)
 void World_Generate(World* self, int seed)
 {
     const double tileSize = Entities_Tiles_GetSize();
-    const double worldSize = 640.0;
-    const double worldX = -100;
-    const double worldY = 100;
-    self->coreData = (CoreData){.x = -100, .y = 100, .width = 640, .height = 640};
+    const double worldSize = 1920.0;
+    const double worldX = -1000;
+    const double worldY = 1000;
+    self->coreData = (CoreData){.x = worldX, .y = worldY, .width = worldSize, .height = worldSize};
     const double worldOrigoX = worldSize / 2 + worldX; 
 
     self->groundSize = worldSize / tileSize;
@@ -68,7 +68,7 @@ void World_Generate(World* self, int seed)
             double x = worldX + (j * tileSize);
             double y = worldY - (i * tileSize);
 
-            if(abs(LinearGenerator(x, 0.5, worldOrigoX) - y) <= 50) {
+            if(abs(LinearGenerator(x, 0.5, worldOrigoX) - y) <= 150 || abs(LinearGenerator(-x, 0.5, worldOrigoX) - y) <= 150) {
                 self->ground[i][j] = Entities_LightGrass_Create(x, y);
             } else {
                 self->ground[i][j] = Entities_Void_Create(x, y);

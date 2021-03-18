@@ -153,7 +153,7 @@ static void CalculateComponentData(Input_PlayerComponent* self, const UInt8* key
     if(keyboardState[SDL_SCANCODE_LSHIFT] != 0) {
         componentData->momentum = 0.50;
     } else if(keyboardState[SDL_SCANCODE_LCTRL] != 0) {
-        componentData->momentum = 1.50;
+        componentData->momentum = 2.50;
     } else {
         componentData->momentum = 1;
     }
