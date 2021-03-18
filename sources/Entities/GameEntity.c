@@ -25,9 +25,8 @@ GameEntity* Entities_GameEntity_Create(
 
 void Entities_GameEntity_Destroy(const GameEntity* self)
 {
-    if(self->inputComponent != NULL)
-        Input_InputComponent_Destroy(self->inputComponent);
-        
+    Input_InputComponent_Destroy(self->inputComponent);
+
     free((GameEntity*)self);
 }
 

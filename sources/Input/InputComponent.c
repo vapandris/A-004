@@ -19,7 +19,8 @@ Input_InputComponent* Input_InputComponent_Create(
 
 void Input_InputComponent_Destroy(const Input_InputComponent* self)
 {
-    self->type->destroy(self);
+    if(self != NULL)
+        self->type->destroy(self);
 }
 
 

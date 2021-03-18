@@ -23,7 +23,8 @@ Graphics_GraphicsComponent* Graphics_GraphicsComponent_Create(Graphics_GraphicsC
 
 void Graphics_GraphicsComponent_Destroy(const Graphics_GraphicsComponent* self)
 {
-    self->type->destroy(self);
+    if(self != NULL)
+        self->type->destroy(self);
 }
 
 
