@@ -22,6 +22,10 @@
 #include <SDL2/SDL_video.h>
 #include <SDL2/SDL_render.h>
 #include <SDL2/SDL_events.h>
+#include <SDL2/SDL_timer.h>
+#include <SDL2/SDL_stdinc.h>
+
+#define MS_PER_UPDATE 45
 
 struct View_GameView
 {
@@ -31,22 +35,29 @@ struct View_GameView
     World* world;
 };
 
-static bool ProcessEvents(View_GameView* self);
+static bool ProcessInput(View_GameView* self);
 
 
 View_GameView* View_GameView_Create()
 {
     View_GameView* result = malloc(sizeof *result);
+
     result->window = SDL_CreateWindow(
         "POG game",
         SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
-        720, 482,
+        720, 480,
         SDL_WINDOW_MAXIMIZED | SDL_WINDOW_FULLSCREEN_DESKTOP
     );
 
     result->renderer = SDL_CreateRenderer(result->window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 
     result->camera = malloc(sizeof *result->camera);
+    int w, h;
+    SDL_GetWindowSize(result->window, &w, &h);
+    double screenRatio = (double)w / h;
+    result->camera->width = 640.0;
+    result->camera->height = result->camera->width / screenRatio;
+
     result->world = World_Create(result->camera);
 
     Graphics_ComponentManager_Create(result->renderer);
@@ -70,42 +81,44 @@ void View_GameView_Destroy(const View_GameView* self)
 
 void View_GameView_Loop(View_GameView* self)
 {
-    SDL_Window* window = self->window;
-    SDL_Renderer* renderer = self->renderer;
-
-    int w, h;
-    SDL_GetWindowSize(window, &w, &h);
-    double ratio = (double)w / h;
-    self->camera->width = 640.0;
-    self->camera->height = self->camera->width / ratio;
+    Camera_RenderingData renderingData = (Camera_RenderingData){
+        .camera = self->camera,
+        .renderer = self->renderer
+    };
+    SDL_GetWindowSize(self->window, &renderingData.windowWidth, &renderingData.windowHeight);
 
     srand(time(NULL));
     World_Generate(self->world, rand());
 
     bool done = false;
+
+    Uint32 previous = SDL_GetTicks();
+    Uint32 lag = 0;
     do {
-        SDL_SetRenderDrawColor(renderer, 94, 158, 196, 255);
-        SDL_RenderClear(renderer);
+        Uint32 current = SDL_GetTicks();
+        Uint32 elapsed = current - previous;
+        previous = current;
+        lag += elapsed;
 
-        done = ProcessEvents(self);
+        SDL_SetRenderDrawColor(self->renderer, 94, 158, 196, 255);
+        SDL_RenderClear(self->renderer);
 
-        // update world
-        
-        Camera_RenderingData renderingData = (Camera_RenderingData){
-                                                .camera = self->camera,
-                                                .renderer = renderer,
-                                                .windowWidth = w,
-                                                .windowHeight = h
-        };
+        done = ProcessInput(self);
+
+        while(lag >= MS_PER_UPDATE) {
+            World_UpdateEntities(self->world);
+            lag -= MS_PER_UPDATE;
+        }
+
         World_RenderEntities(self->world, &renderingData);
-
-        SDL_RenderPresent(renderer);
+        SDL_RenderPresent(self->renderer);
     } while(!done);
     
 }
 
 
-static bool ProcessEvents(View_GameView* self)
+// static functions:
+static bool ProcessInput(View_GameView* self)
 {
     bool done = false;
 
@@ -118,7 +131,7 @@ static bool ProcessEvents(View_GameView* self)
         }
     }
 
-    const UInt8* keyboardState = SDL_GetKeyboardState(NULL);
+    const Uint8* keyboardState = SDL_GetKeyboardState(NULL);
 
     World_HandleInput(self->world, keyboardState);
 
