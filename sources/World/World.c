@@ -3,9 +3,11 @@
 // from std
 #include <stdlib.h>
 #include <math.h>
+#include <time.h>
 
 // from Entities
 #include "Entities/GameEntity.h"
+#include "Entities/GameEntityList.h"
 #include "Entities/Player.h"
 #include "Entities/Tiles.h"
 #include "Entities/Vegetations.h"
@@ -22,7 +24,8 @@ struct World {
     Entities_Player* player;
     int groundSize;
     GameEntity*** ground;
-    //GameEntity**  vegetations;
+    GameEntityList* movingEntities;
+    GameEntityList* staticEntities;
 };
 
 
@@ -30,6 +33,9 @@ World* World_Create(Camera* camera)
 {
     World* result = malloc(sizeof *result);
     result->camera = camera;
+
+    result->movingEntities = Entities_GameEntityList_Create(32);
+    result->staticEntities = Entities_GameEntityList_Create(32);
 
     return result;
 }
@@ -45,12 +51,15 @@ void   World_Destroy(const World* self)
         free(self->ground[i]);
     }
     free(self->ground);
+    Entities_GameEntityList_Destroy(self->movingEntities);
+    Entities_GameEntityList_Destroy(self->staticEntities);
     free((World*)self);
 }
 
 
 void World_Generate(World* self, int seed)
 {
+    srand(seed);
     const double tileSize = Entities_Tiles_GetSize();
     const double worldSize = 1920.0;
     const double worldX = -1000;
@@ -70,6 +79,11 @@ void World_Generate(World* self, int seed)
 
             if(abs(LinearGenerator(x, 0.5, worldOrigoX) - y) <= 150 || abs(LinearGenerator(-x, 0.5, worldOrigoX) - y) <= 150) {
                 self->ground[i][j] = Entities_LightGrass_Create(x, y);
+                if(rand() % 7 == 0) {
+                    Entities_GameEntityList_Add(self->staticEntities, Entities_PineTree_Create(x, y + Entities_Tiles_GetSize()));
+                } else if(rand() % 4 == 0) {
+                    Entities_GameEntityList_Add(self->staticEntities, Entities_YellowFlowers_Create(x, y));
+                }
             } else {
                 self->ground[i][j] = Entities_Void_Create(x, y);
             }
@@ -93,6 +107,14 @@ void World_RenderEntities(World* self, Camera_RenderingData* renderingData)
             Entities_GameEntity_Draw(self->ground[i][j], renderingData);
         }
     }
+    for(Uint16 i = 0; i < Entities_GameEntityList_GetSize(self->movingEntities); ++i) {
+        Entities_GameEntity_Draw(Entities_GameEntityList_GetByIndex(self->movingEntities, i), renderingData);
+    }
+
+    for(UInt16 i = 0; i < Entities_GameEntityList_GetSize(self->staticEntities); ++i) {
+        Entities_GameEntity_Draw(Entities_GameEntityList_GetByIndex(self->staticEntities, i), renderingData);
+    }
+
     Entities_GameEntity_Draw(self->player, renderingData);
 }
 
